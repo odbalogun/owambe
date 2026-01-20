@@ -1,0 +1,186 @@
+.event-type-selection {
+  min-height: 100vh;
+  padding: 60px 20px;
+}
+
+.event-type-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.event-type-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.event-type-header .header-icon {
+  font-size: 64px;
+  color: var(--primary-orange);
+  margin-bottom: 20px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.event-type-header h1 {
+  font-size: 42px;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+  font-weight: 800;
+}
+
+.event-type-header p {
+  font-size: 20px;
+  color: var(--text-medium);
+}
+
+.event-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.event-type-card {
+  cursor: pointer;
+  text-align: center;
+  padding: 40px 24px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.event-type-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--event-color);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.event-type-card:hover {
+  border-color: var(--event-color);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.event-type-card:hover::before {
+  opacity: 0.05;
+}
+
+.event-type-icon-wrapper {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
+}
+
+.event-type-icon-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--event-color), var(--event-color));
+  opacity: 0.1;
+  transition: opacity 0.3s ease;
+}
+
+.event-type-card:hover .event-type-icon-wrapper {
+  transform: scale(1.1);
+}
+
+.event-type-card:hover .event-type-icon-wrapper::before {
+  opacity: 0.15;
+}
+
+.event-type-icon {
+  font-size: 48px;
+  color: var(--event-color);
+  fill: var(--event-color);
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.3s ease;
+  opacity: 1 !important;
+  width: 48px;
+  height: 48px;
+}
+
+.event-type-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.event-type-card:hover .event-type-icon {
+  transform: translate(-50%, -50%) scale(1.1) rotate(5deg);
+}
+
+.event-type-card h2 {
+  position: relative;
+  z-index: 1;
+  font-size: 28px;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.event-type-card p {
+  position: relative;
+  z-index: 1;
+  font-size: 15px;
+  color: var(--text-medium);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.event-type-footer {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+}
+
+.event-type-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--event-color);
+  font-weight: 600;
+  font-size: 16px;
+  transition: gap 0.3s ease;
+}
+
+.event-type-card:hover .event-type-cta {
+  gap: 12px;
+}
+
+.event-type-card .arrow-icon {
+  transition: transform 0.3s ease;
+}
+
+.event-type-card:hover .arrow-icon {
+  transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+  .event-types-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .event-type-header h1 {
+    font-size: 32px;
+  }
+}
