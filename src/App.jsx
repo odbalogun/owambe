@@ -8,6 +8,7 @@ import EventTypeSelection from './pages/EventTypeSelection'
 import EventPlanningBoard from './pages/EventPlanningBoard'
 import PlanningPage from './pages/PlanningPage'
 import VendorChat from './pages/VendorChat'
+import RSVPPage from './pages/RSVPPage'
 import AfricanBackground from './components/AfricanBackground'
 
 function App() {
@@ -80,6 +81,10 @@ function App() {
         <Route 
           path="/vendor/:vendorId/chat" 
           element={<VendorChat />} 
+        />
+        <Route 
+          path="/event/rsvp" 
+          element={<RSVPPage />} 
         />
       </Routes>
     </>

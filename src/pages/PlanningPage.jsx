@@ -334,8 +334,13 @@ function PlanningPage() {
             Aso-Ebi Delivery
           </button>
           <button
-            className={`tab disabled`}
-            disabled
+            className={`tab ${activeTab === 'rsvp' ? 'active' : ''}`}
+            onClick={() => navigate('/event/rsvp', { 
+              state: { 
+                eventDetails, 
+                eventTypeName 
+              } 
+            })}
           >
             <MdEventNote />
             RSVP
