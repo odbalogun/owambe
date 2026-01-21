@@ -19,7 +19,11 @@ import {
   MdHelpOutline,
   MdEdit,
   MdDelete,
-  MdTableRestaurant
+  MdTableRestaurant,
+  MdShoppingCart,
+  MdLink,
+  MdAttachMoney,
+  MdShare
 } from 'react-icons/md'
 import { FaHeart, FaGift, FaUsers } from 'react-icons/fa'
 import './PlanningPage.css'
@@ -355,6 +359,184 @@ function PlanningPage() {
     }
   }
 
+  // Gift Registry State
+  const [registryItems, setRegistryItems] = useState([
+    {
+      id: 1,
+      name: 'Kitchen Stand Mixer',
+      description: 'Professional grade stand mixer for the kitchen',
+      price: 85000,
+      quantity: 1,
+      purchased: 0,
+      purchasers: [],
+      link: 'https://example.com/mixer',
+      category: 'Kitchen',
+      priority: 'high'
+    },
+    {
+      id: 2,
+      name: 'Bedsheet Set (King Size)',
+      description: 'Luxury cotton bedsheet set with pillowcases',
+      price: 45000,
+      quantity: 2,
+      purchased: 1,
+      purchasers: [
+        { name: 'Adebayo Adekunle', quantity: 1 }
+      ],
+      link: 'https://example.com/bedsheets',
+      category: 'Home',
+      priority: 'medium'
+    },
+    {
+      id: 3,
+      name: 'Dining Table Set',
+      description: '8-seater modern dining table with chairs',
+      price: 350000,
+      quantity: 1,
+      purchased: 0,
+      purchasers: [],
+      link: 'https://example.com/dining',
+      category: 'Furniture',
+      priority: 'high'
+    }
+  ])
+
+  const [showAddRegistryForm, setShowAddRegistryForm] = useState(false)
+  const [editingRegistryId, setEditingRegistryId] = useState(null)
+  const [registryFormData, setRegistryFormData] = useState({
+    name: '',
+    description: '',
+    price: '',
+    quantity: 1,
+    purchased: 0,
+    purchasers: [],
+    link: '',
+    category: 'Home',
+    priority: 'medium'
+  })
+
+  // Gift Registry Handlers
+  const handleAddRegistryItem = () => {
+    if (registryFormData.name && registryFormData.price) {
+      const newItem = {
+        id: Date.now(),
+        ...registryFormData,
+        price: parseFloat(registryFormData.price),
+        quantity: parseInt(registryFormData.quantity) || 1,
+        purchased: parseInt(registryFormData.purchased) || 0,
+        purchasers: registryFormData.purchasers || []
+      }
+      setRegistryItems([...registryItems, newItem])
+      resetRegistryForm()
+      setShowAddRegistryForm(false)
+    }
+  }
+
+  const handleEditRegistryItem = (id) => {
+    const item = registryItems.find(r => r.id === id)
+    if (item) {
+      setRegistryFormData({
+        ...item,
+        price: item.price.toString(),
+        quantity: item.quantity.toString(),
+        purchased: item.purchased.toString(),
+        purchasers: item.purchasers || []
+      })
+      setEditingRegistryId(id)
+      setShowAddRegistryForm(true)
+    }
+  }
+
+  const handleUpdateRegistryItem = () => {
+    if (registryFormData.name && registryFormData.price) {
+      const existingItem = registryItems.find(r => r.id === editingRegistryId)
+      setRegistryItems(registryItems.map(r => 
+        r.id === editingRegistryId 
+          ? { 
+              ...registryFormData, 
+              id: editingRegistryId,
+              price: parseFloat(registryFormData.price),
+              quantity: parseInt(registryFormData.quantity) || 1,
+              purchased: parseInt(registryFormData.purchased) || 0,
+              purchasers: existingItem?.purchasers || []
+            } 
+          : r
+      ))
+      resetRegistryForm()
+      setShowAddRegistryForm(false)
+      setEditingRegistryId(null)
+    }
+  }
+
+  const handleDeleteRegistryItem = (id) => {
+    if (window.confirm('Are you sure you want to remove this item from the registry?')) {
+      setRegistryItems(registryItems.filter(r => r.id !== id))
+    }
+  }
+
+  const resetRegistryForm = () => {
+    setRegistryFormData({
+      name: '',
+      description: '',
+      price: '',
+      quantity: 1,
+      purchased: 0,
+      purchasers: [],
+      link: '',
+      category: 'Home',
+      priority: 'medium'
+    })
+  }
+
+  const handleShareRegistry = () => {
+    const registryLink = `${window.location.origin}/event/planning?tab=registry&share=true`
+    
+    if (navigator.share) {
+      navigator.share({
+        title: `${eventDetails.name || eventTypeName} Gift Registry`,
+        text: 'Check out our gift registry!',
+        url: registryLink
+      }).catch(err => {
+        console.log('Error sharing:', err)
+        copyToClipboard(registryLink)
+      })
+    } else {
+      copyToClipboard(registryLink)
+    }
+  }
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Registry link copied to clipboard!')
+    }).catch(() => {
+      // Fallback for older browsers
+      const textarea = document.createElement('textarea')
+      textarea.value = text
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
+      alert('Registry link copied to clipboard!')
+    })
+  }
+
+  const getRegistryStats = () => {
+    const totalItems = registryItems.length
+    const totalPurchased = registryItems.reduce((sum, item) => sum + item.purchased, 0)
+    const totalRemaining = registryItems.reduce((sum, item) => sum + (item.quantity - item.purchased), 0)
+    const totalValue = registryItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+    const purchasedValue = registryItems.reduce((sum, item) => sum + (item.price * item.purchased), 0)
+    
+    return {
+      totalItems,
+      totalPurchased,
+      totalRemaining,
+      totalValue,
+      purchasedValue,
+      remainingValue: totalValue - purchasedValue
+    }
+  }
+
   // Filter and sort vendors
   let filteredVendors = allVendors.filter(vendor => {
     const matchesSearch = vendor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -447,11 +629,11 @@ function PlanningPage() {
             Your Vendors
           </button>
           <button
-            className={`tab disabled`}
-            disabled
+            className={`tab ${activeTab === 'registry' ? 'active' : ''}`}
+            onClick={() => setActiveTab('registry')}
           >
             <FaGift />
-            Event Registry
+            Gift Registry
           </button>
           <button
             className={`tab disabled`}
@@ -852,6 +1034,313 @@ function PlanningPage() {
                     </div>
                   </div>
                 ))
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'registry' && (
+          <div className="registry-tab-content">
+            {/* Registry Header with Share Button */}
+            <div className="registry-header-actions fade-in">
+              <button
+                onClick={handleShareRegistry}
+                className="btn btn-primary registry-share-btn"
+              >
+                <MdShare />
+                Share Registry
+              </button>
+            </div>
+
+            {/* Registry Stats */}
+            <div className="registry-stats fade-in">
+              {(() => {
+                const stats = getRegistryStats()
+                return (
+                  <>
+                    <div className="registry-stat-card card">
+                      <div className="registry-stat-number registry-stat-total">{stats.totalItems}</div>
+                      <div className="registry-stat-label">Total Items</div>
+                    </div>
+                    <div className="registry-stat-card card">
+                      <div className="registry-stat-number registry-stat-purchased">{stats.totalPurchased}</div>
+                      <div className="registry-stat-label">Purchased</div>
+                    </div>
+                    <div className="registry-stat-card card">
+                      <div className="registry-stat-number registry-stat-remaining">{stats.totalRemaining}</div>
+                      <div className="registry-stat-label">Remaining</div>
+                    </div>
+                    <div className="registry-stat-card card">
+                      <div className="registry-stat-number registry-stat-value">₦{stats.totalValue.toLocaleString()}</div>
+                      <div className="registry-stat-label">Total Value</div>
+                    </div>
+                  </>
+                )
+              })()}
+            </div>
+
+            {/* Add/Edit Form */}
+            {showAddRegistryForm && (
+              <div className="registry-form-card card fade-in">
+                <h2>{editingRegistryId ? 'Edit Registry Item' : 'Add New Registry Item'}</h2>
+                <div className="registry-form">
+                  <div className="form-group">
+                    <label htmlFor="registry-name">
+                      <FaGift className="input-icon" />
+                      Item Name *
+                    </label>
+                    <input
+                      id="registry-name"
+                      type="text"
+                      className="input"
+                      placeholder="e.g., Kitchen Stand Mixer"
+                      value={registryFormData.name}
+                      onChange={(e) => setRegistryFormData({ ...registryFormData, name: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="registry-description">
+                      Description
+                    </label>
+                    <textarea
+                      id="registry-description"
+                      className="input"
+                      placeholder="Brief description of the item"
+                      rows="3"
+                      value={registryFormData.description}
+                      onChange={(e) => setRegistryFormData({ ...registryFormData, description: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="registry-price">
+                      <MdAttachMoney className="input-icon" />
+                      Price (₦) *
+                    </label>
+                    <input
+                      id="registry-price"
+                      type="number"
+                      className="input"
+                      placeholder="85000"
+                      value={registryFormData.price}
+                      onChange={(e) => setRegistryFormData({ ...registryFormData, price: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="registry-quantity">
+                      Quantity
+                    </label>
+                    <input
+                      id="registry-quantity"
+                      type="number"
+                      className="input"
+                      placeholder="1"
+                      min="1"
+                      value={registryFormData.quantity}
+                      onChange={(e) => setRegistryFormData({ ...registryFormData, quantity: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="registry-purchased">
+                      Purchased
+                    </label>
+                    <input
+                      id="registry-purchased"
+                      type="number"
+                      className="input"
+                      placeholder="0"
+                      min="0"
+                      value={registryFormData.purchased}
+                      onChange={(e) => setRegistryFormData({ ...registryFormData, purchased: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="registry-category">
+                      Category
+                    </label>
+                    <select
+                      id="registry-category"
+                      className="input"
+                      value={registryFormData.category}
+                      onChange={(e) => setRegistryFormData({ ...registryFormData, category: e.target.value })}
+                    >
+                      <option value="Home">Home</option>
+                      <option value="Kitchen">Kitchen</option>
+                      <option value="Furniture">Furniture</option>
+                      <option value="Electronics">Electronics</option>
+                      <option value="Bedding">Bedding</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="registry-priority">
+                      Priority
+                    </label>
+                    <select
+                      id="registry-priority"
+                      className="input"
+                      value={registryFormData.priority}
+                      onChange={(e) => setRegistryFormData({ ...registryFormData, priority: e.target.value })}
+                    >
+                      <option value="high">High</option>
+                      <option value="medium">Medium</option>
+                      <option value="low">Low</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="registry-link">
+                      <MdLink className="input-icon" />
+                      Product Link (Optional)
+                    </label>
+                    <input
+                      id="registry-link"
+                      type="url"
+                      className="input"
+                      placeholder="https://example.com/product"
+                      value={registryFormData.link}
+                      onChange={(e) => setRegistryFormData({ ...registryFormData, link: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="registry-form-actions">
+                    <button
+                      onClick={editingRegistryId ? handleUpdateRegistryItem : handleAddRegistryItem}
+                      className="btn btn-primary"
+                    >
+                      {editingRegistryId ? 'Update Item' : 'Add Item'}
+                    </button>
+                    <button
+                      onClick={() => {
+                        resetRegistryForm()
+                        setShowAddRegistryForm(false)
+                        setEditingRegistryId(null)
+                      }}
+                      className="btn btn-outline"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Add Button */}
+            {!showAddRegistryForm && (
+              <div className="registry-add-btn-container fade-in">
+                <button
+                  onClick={() => setShowAddRegistryForm(true)}
+                  className="btn btn-primary registry-add-btn"
+                >
+                  <MdAdd />
+                  Add Registry Item
+                </button>
+              </div>
+            )}
+
+            {/* Registry List */}
+            <div className="registry-list fade-in">
+              {registryItems.length === 0 ? (
+                <div className="registry-empty-state card">
+                  <FaGift className="empty-icon" />
+                  <p>No items in your registry yet. Add your first item!</p>
+                </div>
+              ) : (
+                registryItems.map((item) => {
+                  const remaining = item.quantity - item.purchased
+                  const progress = item.quantity > 0 ? (item.purchased / item.quantity) * 100 : 0
+                  const isComplete = remaining <= 0
+                  
+                  return (
+                    <div key={item.id} className={`registry-card card ${isComplete ? 'registry-complete' : ''}`}>
+                      <div className="registry-card-header">
+                        <div className="registry-card-info">
+                          <FaGift className={`registry-icon registry-priority-${item.priority}`} />
+                          <div className="registry-card-main">
+                            <div className="registry-card-title-row">
+                              <h3>{item.name}</h3>
+                              <span className={`registry-priority-badge priority-${item.priority}`}>
+                                {item.priority}
+                              </span>
+                            </div>
+                            <p className="registry-description">{item.description}</p>
+                            <div className="registry-card-meta">
+                              <span className="registry-category">{item.category}</span>
+                              <span className="registry-price">₦{item.price.toLocaleString()}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="registry-progress-section">
+                        <div className="registry-quantity-info">
+                          <span>Quantity: {item.quantity}</span>
+                          <span>Purchased: {item.purchased}</span>
+                          <span className={`registry-remaining ${isComplete ? 'complete' : ''}`}>
+                            Remaining: {remaining}
+                          </span>
+                        </div>
+                        <div className="registry-progress-bar">
+                          <div 
+                            className="registry-progress-fill" 
+                            style={{ width: `${progress}%` }}
+                          />
+                        </div>
+                      </div>
+
+                      {item.link && (
+                        <div className="registry-link-section">
+                          <a 
+                            href={item.link} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="registry-link-btn"
+                          >
+                            <MdLink />
+                            View Product
+                          </a>
+                        </div>
+                      )}
+
+                      {item.purchasers && item.purchasers.length > 0 && (
+                        <div className="registry-purchasers-section">
+                          <h4 className="registry-purchasers-title">Purchased by:</h4>
+                          <div className="registry-purchasers-list">
+                            {item.purchasers.map((purchaser, idx) => (
+                              <div key={idx} className="registry-purchaser-item">
+                                <MdPerson className="registry-purchaser-icon" />
+                                <span className="registry-purchaser-name">{purchaser.name}</span>
+                                <span className="registry-purchaser-quantity">x{purchaser.quantity}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="registry-card-actions">
+                        <button
+                          onClick={() => handleEditRegistryItem(item.id)}
+                          className="registry-action-btn registry-edit-btn"
+                          title="Edit"
+                        >
+                          <MdEdit />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteRegistryItem(item.id)}
+                          className="registry-action-btn registry-delete-btn"
+                          title="Delete"
+                        >
+                          <MdDelete />
+                        </button>
+                      </div>
+                    </div>
+                  )
+                })
               )}
             </div>
           </div>

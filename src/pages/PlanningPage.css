@@ -769,3 +769,457 @@
   color: var(--white);
   transform: scale(1.1);
 }
+
+/* Gift Registry Tab Styles */
+.registry-tab-content {
+  margin-top: 32px;
+}
+
+.registry-header-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 32px;
+}
+
+.registry-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  padding: 12px 24px;
+}
+
+.registry-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.registry-stat-card {
+  text-align: center;
+  padding: 32px 24px;
+  transition: transform 0.3s ease;
+}
+
+.registry-stat-card:hover {
+  transform: translateY(-4px);
+}
+
+.registry-stat-number {
+  font-size: 48px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.registry-stat-total {
+  color: var(--primary-purple);
+}
+
+.registry-stat-purchased {
+  color: #4caf50;
+}
+
+.registry-stat-remaining {
+  color: var(--primary-orange);
+}
+
+.registry-stat-value {
+  color: var(--primary-red);
+  font-size: 36px;
+}
+
+.registry-stat-label {
+  font-size: 16px;
+  color: var(--text-medium);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.registry-form-card {
+  margin-bottom: 40px;
+  padding: 32px;
+}
+
+.registry-form-card h2 {
+  font-size: 28px;
+  color: var(--text-dark);
+  margin-bottom: 24px;
+  font-weight: 800;
+}
+
+.registry-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.registry-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.registry-form .form-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.registry-form .form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.registry-form-actions {
+  display: flex;
+  gap: 16px;
+  grid-column: 1 / -1;
+  margin-top: 8px;
+}
+
+.registry-add-btn-container {
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.registry-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  padding: 16px 32px;
+}
+
+.registry-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.registry-empty-state {
+  text-align: center;
+  padding: 80px 40px;
+}
+
+.registry-empty-state .empty-icon {
+  font-size: 80px;
+  color: var(--text-medium);
+  opacity: 0.3;
+  margin-bottom: 24px;
+}
+
+.registry-empty-state p {
+  font-size: 20px;
+  color: var(--text-medium);
+}
+
+.registry-card {
+  padding: 24px;
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.registry-card:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.registry-card.registry-complete {
+  border-left-color: #4caf50;
+  background: linear-gradient(to right, rgba(76, 175, 80, 0.05), transparent);
+}
+
+.registry-card-header {
+  margin-bottom: 16px;
+}
+
+.registry-card-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.registry-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.registry-priority-high {
+  color: var(--primary-red);
+}
+
+.registry-priority-medium {
+  color: var(--primary-orange);
+}
+
+.registry-priority-low {
+  color: var(--primary-purple);
+}
+
+.registry-card-main {
+  flex: 1;
+}
+
+.registry-card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.registry-card-title-row h3 {
+  font-size: 22px;
+  color: var(--text-dark);
+  font-weight: 800;
+  margin: 0;
+}
+
+.registry-priority-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.priority-high {
+  background: rgba(211, 47, 47, 0.15);
+  color: var(--primary-red);
+}
+
+.priority-medium {
+  background: rgba(255, 107, 53, 0.15);
+  color: var(--primary-orange);
+}
+
+.priority-low {
+  background: rgba(123, 44, 191, 0.15);
+  color: var(--primary-purple);
+}
+
+.registry-description {
+  font-size: 14px;
+  color: var(--text-medium);
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.registry-card-meta {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.registry-category {
+  padding: 6px 12px;
+  background: rgba(255, 107, 53, 0.1);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary-orange);
+}
+
+.registry-price {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.registry-progress-section {
+  margin-bottom: 16px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+}
+
+.registry-quantity-info {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: var(--text-medium);
+  font-weight: 600;
+}
+
+.registry-remaining.complete {
+  color: #4caf50;
+  font-weight: 700;
+}
+
+.registry-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.registry-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-orange), var(--primary-red));
+  transition: width 0.3s ease;
+}
+
+.registry-link-section {
+  margin-bottom: 16px;
+}
+
+.registry-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(255, 107, 53, 0.1);
+  color: var(--primary-orange);
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.registry-link-btn:hover {
+  background: var(--primary-orange);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.registry-purchasers-section {
+  margin-bottom: 16px;
+  padding: 16px;
+  background: rgba(76, 175, 80, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid #4caf50;
+}
+
+.registry-purchasers-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.registry-purchasers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.registry-purchaser-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--white);
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.registry-purchaser-icon {
+  font-size: 18px;
+  color: #4caf50;
+  flex-shrink: 0;
+}
+
+.registry-purchaser-name {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.registry-purchaser-quantity {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary-orange);
+  background: rgba(255, 107, 53, 0.1);
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.registry-card-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.registry-action-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 20px;
+}
+
+.registry-edit-btn {
+  background: rgba(255, 107, 53, 0.1);
+  color: var(--primary-orange);
+}
+
+.registry-edit-btn:hover {
+  background: var(--primary-orange);
+  color: var(--white);
+  transform: scale(1.1);
+}
+
+.registry-delete-btn {
+  background: rgba(211, 47, 47, 0.1);
+  color: var(--primary-red);
+}
+
+.registry-delete-btn:hover {
+  background: var(--primary-red);
+  color: var(--white);
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .registry-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .registry-form {
+    grid-template-columns: 1fr;
+  }
+
+  .registry-card-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .registry-card-actions {
+    justify-content: flex-start;
+  }
+
+  .registry-quantity-info {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .registry-header-actions {
+    justify-content: center;
+  }
+
+  .registry-share-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
