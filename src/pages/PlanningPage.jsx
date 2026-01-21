@@ -1041,17 +1041,6 @@ function PlanningPage() {
 
         {activeTab === 'registry' && (
           <div className="registry-tab-content">
-            {/* Registry Header with Share Button */}
-            <div className="registry-header-actions fade-in">
-              <button
-                onClick={handleShareRegistry}
-                className="btn btn-primary registry-share-btn"
-              >
-                <MdShare />
-                Share Registry
-              </button>
-            </div>
-
             {/* Registry Stats */}
             <div className="registry-stats fade-in">
               {(() => {
@@ -1230,15 +1219,22 @@ function PlanningPage() {
               </div>
             )}
 
-            {/* Add Button */}
+            {/* Add and Share Buttons */}
             {!showAddRegistryForm && (
-              <div className="registry-add-btn-container fade-in">
+              <div className="registry-actions-container fade-in">
                 <button
                   onClick={() => setShowAddRegistryForm(true)}
                   className="btn btn-primary registry-add-btn"
                 >
                   <MdAdd />
                   Add Registry Item
+                </button>
+                <button
+                  onClick={handleShareRegistry}
+                  className="btn btn-secondary registry-share-btn"
+                >
+                  <MdShare />
+                  Share Registry
                 </button>
               </div>
             )}

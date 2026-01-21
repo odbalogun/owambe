@@ -1,51 +1,23 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { 
   MdCelebration, 
   MdStar,
   MdLocationOn,
-  MdBusiness,
-  MdPhotoCamera,
-  MdMusicNote,
-  MdRestaurant,
-  MdLocalFlorist,
-  MdVideoLibrary,
   MdAccountCircle,
   MdMenu,
   MdClose,
-  MdArrowBackIos,
-  MdArrowForwardIos
+  MdEventNote,
+  MdCardGiftcard,
+  MdPersonAdd,
+  MdCheckroom
 } from 'react-icons/md'
+import { FaGift } from 'react-icons/fa'
 import './Home.css'
 
 function Home() {
   const navigate = useNavigate()
-  const [currentSlide, setCurrentSlide] = useState(0)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-  const carouselImages = [
-    'https://images.unsplash.com/photo-1582086450989-ffa7a19b2c3c?w=1200&h=600&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1200&h=600&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&h=600&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1609234269200-4e9e6c1ba8d1?w=1200&h=600&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1594736797933-d0c2d6c2f4e8?w=1200&h=600&fit=crop&q=80'
-  ]
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % carouselImages.length)
-  }
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + carouselImages.length) % carouselImages.length)
-  }
-
-  // Auto-advance carousel
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % carouselImages.length)
-    }, 5000)
-    return () => clearInterval(interval)
-  }, [])
 
   const featuredVendors = [
     {
@@ -106,34 +78,24 @@ function Home() {
 
   const services = [
     {
-      icon: MdRestaurant,
-      title: 'Catering Services',
-      description: 'Delicious traditional and modern cuisine for your celebration'
+      icon: MdEventNote,
+      title: 'Event Planning',
+      description: 'Comprehensive event planning services to make your celebration unforgettable'
     },
     {
-      icon: MdBusiness,
-      title: 'Event Decoration',
-      description: 'Stunning decorations to transform your venue into a magical space'
+      icon: FaGift,
+      title: 'Gift Registry',
+      description: 'Create and manage your gift registry to help guests find the perfect gifts'
     },
     {
-      icon: MdPhotoCamera,
-      title: 'Photography & Videography',
-      description: 'Capture every precious moment with professional photography and videography'
+      icon: MdPersonAdd,
+      title: 'RSVP Management',
+      description: 'Easily manage guest lists, RSVPs, and track attendance for your event'
     },
     {
-      icon: MdMusicNote,
-      title: 'Music & Entertainment',
-      description: 'Live music, DJs, and entertainment to keep your guests dancing'
-    },
-    {
-      icon: MdLocalFlorist,
-      title: 'Floral Arrangements',
-      description: 'Beautiful flower arrangements for any celebration theme'
-    },
-    {
-      icon: MdVideoLibrary,
-      title: 'Venue Booking',
-      description: 'Find the perfect venue for your wedding, party, or corporate event'
+      icon: MdCheckroom,
+      title: 'Aso-Ebi Delivery',
+      description: 'Coordinate and manage aso-ebi orders and deliveries for your celebration'
     }
   ]
 
@@ -157,7 +119,6 @@ function Home() {
           <div className={`navbar-menu ${mobileMenuOpen ? 'active' : ''}`}>
             <a href="#services" className="navbar-link" onClick={() => setMobileMenuOpen(false)}>Services</a>
             <a href="#vendors" className="navbar-link" onClick={() => setMobileMenuOpen(false)}>Vendors</a>
-            <a href="#about" className="navbar-link" onClick={() => setMobileMenuOpen(false)}>About</a>
             <button onClick={handleLoginClick} className="btn btn-primary navbar-login-btn">
               <MdAccountCircle />
               Login
@@ -172,56 +133,27 @@ function Home() {
         </div>
       </nav>
 
-      {/* Carousel Section - Full Width */}
-      <section className="carousel-section-full">
-          <div className="carousel-wrapper">
-            <div className="carousel-track" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-              {carouselImages.map((image, index) => (
-                <div key={index} className="carousel-slide">
-                  <img src={image} alt={`African celebration ${index + 1}`} />
-                </div>
-              ))}
-            </div>
-            <button className="carousel-button carousel-button-prev" onClick={prevSlide}>
-              <MdArrowBackIos />
-            </button>
-            <button className="carousel-button carousel-button-next" onClick={nextSlide}>
-              <MdArrowForwardIos />
-            </button>
-            <div className="carousel-indicators">
-              {carouselImages.map((_, index) => (
-                <button
-                  key={index}
-                  className={`carousel-indicator ${index === currentSlide ? 'active' : ''}`}
-                  onClick={() => setCurrentSlide(index)}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-
       <div className="home-container">
         {/* Hero Section */}
-        <section className="home-hero" id="about">
+        <section className="home-hero">
           <div className="home-hero-content">
-            <img 
-              src="https://images.unsplash.com/photo-1519741497674-611481863552?w=500&h=600&fit=crop&q=80" 
-              alt="Nigerian wedding couple" 
-              className="home-hero-image"
-            />
+            <div className="home-hero-image-wrapper">
+              <img 
+                src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=1000&fit=crop&q=80" 
+                alt="Beautiful black couple celebrating" 
+                className="home-hero-image"
+              />
+            </div>
             <div className="home-hero-text-content">
-              <div className="home-logo-section">
-                <MdCelebration className="home-hero-logo-icon" />
-                <h1 className="home-hero-title">Owambe</h1>
-              </div>
-              <p className="home-hero-subtitle">Your Nigerian Party Marketplace</p>
+              <h1 className="home-hero-title">Plan Your Perfect Celebration</h1>
               <p className="home-hero-description">
-                Connect with trusted vendors and plan unforgettable celebrations across Nigeria. 
-                From weddings to corporate events, we bring the best of African party planning to you.
-                Experience the vibrant culture and traditions of Nigerian celebrations. Whether you're planning 
-                a grand wedding, an intimate gathering, or a corporate event, Owambe connects you with the finest 
-                vendors across Nigeria. Our platform makes it easy to discover, compare, and book the best 
-                caterers, decorators, photographers, musicians, and venues all in one place.
+                From intimate gatherings to grand celebrations, Owambe is your one-stop platform 
+                for planning unforgettable Nigerian events. Connect with trusted vendors, manage 
+                your guest list, create gift registries, and coordinate aso-ebi deliveries—all in one place.
+              </p>
+              <p className="home-hero-description">
+                Whether you're planning a wedding, birthday, anniversary, or any special occasion, 
+                we make it easy to bring your vision to life with the best vendors and services across Nigeria.
               </p>
               <button onClick={handleLoginClick} className="btn btn-primary home-hero-cta-btn">
                 <MdAccountCircle />

@@ -775,18 +775,34 @@
   margin-top: 32px;
 }
 
-.registry-header-actions {
+.registry-actions-container {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
   margin-bottom: 32px;
+  flex-wrap: wrap;
 }
 
+.registry-add-btn,
 .registry-share-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   font-size: 16px;
   padding: 12px 24px;
+}
+
+.registry-share-btn {
+  background: linear-gradient(135deg, var(--primary-yellow), var(--accent-gold));
+  color: var(--text-dark);
+  border: none;
+}
+
+.registry-share-btn:hover {
+  background: linear-gradient(135deg, var(--accent-gold), var(--primary-yellow));
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .registry-stats {
@@ -882,19 +898,6 @@
   margin-top: 8px;
 }
 
-.registry-add-btn-container {
-  margin-bottom: 32px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.registry-add-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 18px;
-  padding: 16px 32px;
-}
 
 .registry-list {
   display: flex;
@@ -1214,10 +1217,11 @@
     gap: 8px;
   }
 
-  .registry-header-actions {
-    justify-content: center;
+  .registry-actions-container {
+    flex-direction: column;
   }
 
+  .registry-add-btn,
   .registry-share-btn {
     width: 100%;
     justify-content: center;
