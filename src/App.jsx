@@ -1,6 +1,7 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import Landing from './pages/Landing'
+import Home from './pages/Home'
+import Login from './pages/Login'
 import RoleSelection from './pages/RoleSelection'
 import VendorStorefront from './pages/VendorStorefront'
 import EventTypeSelection from './pages/EventTypeSelection'
@@ -10,6 +11,7 @@ import VendorChat from './pages/VendorChat'
 import AfricanBackground from './components/AfricanBackground'
 
 function App() {
+  const location = useLocation()
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem('owambe_user')
     return savedUser ? JSON.parse(savedUser) : null
@@ -35,13 +37,19 @@ function App() {
     }
   }, [userRole])
 
+  const showBackground = location.pathname !== '/'
+
   return (
     <>
-      <AfricanBackground />
+      {showBackground && <AfricanBackground />}
       <Routes>
         <Route 
           path="/" 
-          element={<Landing user={user} setUser={setUser} />} 
+          element={<Home />} 
+        />
+        <Route 
+          path="/login" 
+          element={<Login user={user} setUser={setUser} />} 
         />
         <Route 
           path="/role-selection" 
@@ -49,7 +57,7 @@ function App() {
             user ? (
               <RoleSelection user={user} setUserRole={setUserRole} />
             ) : (
-              <Navigate to="/" replace />
+              <Navigate to="/login" replace />
             )
           } 
         />

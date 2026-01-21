@@ -88,8 +88,8 @@ function VendorStorefront() {
         </div>
 
         <div className="menu-section">
-          <h2 className="section-title">
-            <MdRestaurant className="section-icon" />
+          <h2 className="vendor-storefront-section-title">
+            <MdRestaurant className="vendor-storefront-section-icon" />
             Our Menu
           </h2>
           <div className="menu-grid">
