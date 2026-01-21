@@ -452,4 +452,320 @@
   .selected-vendor-card {
     flex-wrap: wrap;
   }
+
+  .rsvp-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .rsvp-form {
+    grid-template-columns: 1fr;
+  }
+
+  .rsvp-card-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .rsvp-card-actions {
+    justify-content: flex-start;
+  }
+}
+
+/* RSVP Tab Styles */
+.rsvp-tab-content {
+  margin-top: 32px;
+}
+
+.rsvp-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.rsvp-stat-card {
+  text-align: center;
+  padding: 32px 24px;
+  transition: transform 0.3s ease;
+}
+
+.rsvp-stat-card:hover {
+  transform: translateY(-4px);
+}
+
+.rsvp-stat-number {
+  font-size: 48px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.rsvp-stat-confirmed {
+  color: #4caf50;
+}
+
+.rsvp-stat-pending {
+  color: var(--primary-orange);
+}
+
+.rsvp-stat-declined {
+  color: var(--primary-red);
+}
+
+.rsvp-stat-total {
+  color: var(--primary-purple);
+}
+
+.rsvp-stat-label {
+  font-size: 16px;
+  color: var(--text-medium);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.rsvp-form-card {
+  margin-bottom: 40px;
+  padding: 32px;
+}
+
+.rsvp-form-card h2 {
+  font-size: 28px;
+  color: var(--text-dark);
+  margin-bottom: 24px;
+  font-weight: 800;
+}
+
+.rsvp-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.rsvp-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rsvp-form .form-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.rsvp-form .checkbox-group label {
+  flex-direction: row;
+  cursor: pointer;
+}
+
+.rsvp-form .checkbox-group input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.rsvp-form .input-icon {
+  color: var(--primary-orange);
+  font-size: 20px;
+}
+
+.rsvp-form-actions {
+  display: flex;
+  gap: 16px;
+  grid-column: 1 / -1;
+  margin-top: 8px;
+}
+
+.rsvp-add-btn-container {
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.rsvp-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  padding: 16px 32px;
+}
+
+.rsvp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.rsvp-empty-state {
+  text-align: center;
+  padding: 80px 40px;
+}
+
+.rsvp-empty-state .empty-icon {
+  font-size: 80px;
+  color: var(--text-medium);
+  opacity: 0.3;
+  margin-bottom: 24px;
+}
+
+.rsvp-empty-state p {
+  font-size: 20px;
+  color: var(--text-medium);
+}
+
+.rsvp-card {
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.rsvp-card:hover {
+  transform: translateX(4px);
+}
+
+.rsvp-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.rsvp-card-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  flex: 1;
+}
+
+.rsvp-status-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.rsvp-card-info h3 {
+  font-size: 22px;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+  font-weight: 800;
+}
+
+.rsvp-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text-medium);
+}
+
+.rsvp-card-details span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rsvp-card-status {
+  flex-shrink: 0;
+}
+
+.rsvp-status-select {
+  padding: 8px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--white);
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.rsvp-status-select:hover {
+  border-color: var(--primary-orange);
+}
+
+.rsvp-status-select:focus {
+  outline: none;
+  border-color: var(--primary-orange);
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.rsvp-plus-one {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(255, 107, 53, 0.1);
+  border-radius: 8px;
+  margin-bottom: 16px;
+  color: var(--text-dark);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.rsvp-plus-one svg {
+  color: var(--primary-orange);
+}
+
+.rsvp-table-assignment {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(123, 44, 191, 0.1);
+  border-radius: 8px;
+  margin-bottom: 16px;
+  color: var(--text-dark);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.rsvp-table-assignment svg {
+  color: var(--primary-purple);
+}
+
+.rsvp-card-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.rsvp-action-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 20px;
+}
+
+.rsvp-edit-btn {
+  background: rgba(255, 107, 53, 0.1);
+  color: var(--primary-orange);
+}
+
+.rsvp-edit-btn:hover {
+  background: var(--primary-orange);
+  color: var(--white);
+  transform: scale(1.1);
+}
+
+.rsvp-delete-btn {
+  background: rgba(211, 47, 47, 0.1);
+  color: var(--primary-red);
+}
+
+.rsvp-delete-btn:hover {
+  background: var(--primary-red);
+  color: var(--white);
+  transform: scale(1.1);
 }

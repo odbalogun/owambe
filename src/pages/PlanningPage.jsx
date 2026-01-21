@@ -10,7 +10,16 @@ import {
   MdBusiness,
   MdEventNote,
   MdAdd,
-  MdDownload
+  MdDownload,
+  MdPerson,
+  MdEmail,
+  MdPhone,
+  MdCheckCircle,
+  MdCancel,
+  MdHelpOutline,
+  MdEdit,
+  MdDelete,
+  MdTableRestaurant
 } from 'react-icons/md'
 import { FaHeart, FaGift, FaUsers } from 'react-icons/fa'
 import './PlanningPage.css'
@@ -228,6 +237,124 @@ function PlanningPage() {
 
   const categories = ['all', ...new Set(allVendors.map(v => v.category))]
 
+  // RSVP State
+  const [rsvps, setRsvps] = useState([
+    {
+      id: 1,
+      name: 'Adebayo Adekunle',
+      email: 'adebayo@example.com',
+      phone: '+234 801 234 5678',
+      status: 'confirmed',
+      plusOne: false,
+      plusOneName: '',
+      tableAssignment: 'Table 5'
+    },
+    {
+      id: 2,
+      name: 'Chioma Okafor',
+      email: 'chioma@example.com',
+      phone: '+234 802 345 6789',
+      status: 'pending',
+      plusOne: true,
+      plusOneName: 'Emeka Okafor',
+      tableAssignment: ''
+    },
+    {
+      id: 3,
+      name: 'Segun Williams',
+      email: 'segun@example.com',
+      phone: '+234 803 456 7890',
+      status: 'declined',
+      plusOne: false,
+      plusOneName: '',
+      tableAssignment: ''
+    }
+  ])
+
+  const [showAddRSVPForm, setShowAddRSVPForm] = useState(false)
+  const [editingRSVPId, setEditingRSVPId] = useState(null)
+  const [rsvpFormData, setRsvpFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    status: 'pending',
+    plusOne: false,
+    plusOneName: '',
+    tableAssignment: ''
+  })
+
+  // RSVP Handlers
+  const handleAddRSVP = () => {
+    if (rsvpFormData.name && rsvpFormData.email) {
+      const newRSVP = {
+        id: Date.now(),
+        ...rsvpFormData
+      }
+      setRsvps([...rsvps, newRSVP])
+      resetRSVPForm()
+      setShowAddRSVPForm(false)
+    }
+  }
+
+  const handleEditRSVP = (id) => {
+    const rsvp = rsvps.find(r => r.id === id)
+    if (rsvp) {
+      setRsvpFormData(rsvp)
+      setEditingRSVPId(id)
+      setShowAddRSVPForm(true)
+    }
+  }
+
+  const handleUpdateRSVP = () => {
+    if (rsvpFormData.name && rsvpFormData.email) {
+      setRsvps(rsvps.map(r => r.id === editingRSVPId ? { ...rsvpFormData, id: editingRSVPId } : r))
+      resetRSVPForm()
+      setShowAddRSVPForm(false)
+      setEditingRSVPId(null)
+    }
+  }
+
+  const handleDeleteRSVP = (id) => {
+    if (window.confirm('Are you sure you want to remove this RSVP?')) {
+      setRsvps(rsvps.filter(r => r.id !== id))
+    }
+  }
+
+  const handleRSVPStatusChange = (id, newStatus) => {
+    setRsvps(rsvps.map(r => r.id === id ? { ...r, status: newStatus } : r))
+  }
+
+  const resetRSVPForm = () => {
+    setRsvpFormData({
+      name: '',
+      email: '',
+      phone: '',
+      status: 'pending',
+      plusOne: false,
+      plusOneName: '',
+      tableAssignment: ''
+    })
+  }
+
+  const getRSVPStatusIcon = (status) => {
+    switch (status) {
+      case 'confirmed':
+        return <MdCheckCircle className="rsvp-status-icon rsvp-status-confirmed" />
+      case 'declined':
+        return <MdCancel className="rsvp-status-icon rsvp-status-declined" />
+      default:
+        return <MdHelpOutline className="rsvp-status-icon rsvp-status-pending" />
+    }
+  }
+
+  const getRSVPStatusCounts = () => {
+    return {
+      confirmed: rsvps.filter(r => r.status === 'confirmed').length,
+      pending: rsvps.filter(r => r.status === 'pending').length,
+      declined: rsvps.filter(r => r.status === 'declined').length
+    }
+  }
+
   // Filter and sort vendors
   let filteredVendors = allVendors.filter(vendor => {
     const matchesSearch = vendor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -335,12 +462,7 @@ function PlanningPage() {
           </button>
           <button
             className={`tab ${activeTab === 'rsvp' ? 'active' : ''}`}
-            onClick={() => navigate('/event/rsvp', { 
-              state: { 
-                eventDetails, 
-                eventTypeName 
-              } 
-            })}
+            onClick={() => setActiveTab('rsvp')}
           >
             <MdEventNote />
             RSVP
@@ -502,6 +624,234 @@ function PlanningPage() {
 
               {availableVendors.length === 0 && (
                 <p className="empty-state">No vendors found matching your criteria.</p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'rsvp' && (
+          <div className="rsvp-tab-content">
+            {/* RSVP Stats */}
+            <div className="rsvp-stats fade-in">
+              {(() => {
+                const counts = getRSVPStatusCounts()
+                return (
+                  <>
+                    <div className="rsvp-stat-card card">
+                      <div className="rsvp-stat-number rsvp-stat-confirmed">{counts.confirmed}</div>
+                      <div className="rsvp-stat-label">Confirmed</div>
+                    </div>
+                    <div className="rsvp-stat-card card">
+                      <div className="rsvp-stat-number rsvp-stat-pending">{counts.pending}</div>
+                      <div className="rsvp-stat-label">Pending</div>
+                    </div>
+                    <div className="rsvp-stat-card card">
+                      <div className="rsvp-stat-number rsvp-stat-declined">{counts.declined}</div>
+                      <div className="rsvp-stat-label">Declined</div>
+                    </div>
+                    <div className="rsvp-stat-card card">
+                      <div className="rsvp-stat-number rsvp-stat-total">{rsvps.length}</div>
+                      <div className="rsvp-stat-label">Total Guests</div>
+                    </div>
+                  </>
+                )
+              })()}
+            </div>
+
+            {/* Add/Edit Form */}
+            {showAddRSVPForm && (
+              <div className="rsvp-form-card card fade-in">
+                <h2>{editingRSVPId ? 'Edit RSVP' : 'Add New RSVP'}</h2>
+                <div className="rsvp-form">
+                  <div className="form-group">
+                    <label htmlFor="rsvp-name">
+                      <MdPerson className="input-icon" />
+                      Name *
+                    </label>
+                    <input
+                      id="rsvp-name"
+                      type="text"
+                      className="input"
+                      placeholder="Full name"
+                      value={rsvpFormData.name}
+                      onChange={(e) => setRsvpFormData({ ...rsvpFormData, name: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="rsvp-email">
+                      <MdEmail className="input-icon" />
+                      Email *
+                    </label>
+                    <input
+                      id="rsvp-email"
+                      type="email"
+                      className="input"
+                      placeholder="email@example.com"
+                      value={rsvpFormData.email}
+                      onChange={(e) => setRsvpFormData({ ...rsvpFormData, email: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="rsvp-phone">
+                      <MdPhone className="input-icon" />
+                      Phone
+                    </label>
+                    <input
+                      id="rsvp-phone"
+                      type="tel"
+                      className="input"
+                      placeholder="+234 801 234 5678"
+                      value={rsvpFormData.phone}
+                      onChange={(e) => setRsvpFormData({ ...rsvpFormData, phone: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="rsvp-table">
+                      <MdTableRestaurant className="input-icon" />
+                      Table Assignment (Optional)
+                    </label>
+                    <input
+                      id="rsvp-table"
+                      type="text"
+                      className="input"
+                      placeholder="e.g., Table 5, VIP Section, etc."
+                      value={rsvpFormData.tableAssignment}
+                      onChange={(e) => setRsvpFormData({ ...rsvpFormData, tableAssignment: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="form-group checkbox-group">
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={rsvpFormData.plusOne}
+                        onChange={(e) => setRsvpFormData({ ...rsvpFormData, plusOne: e.target.checked })}
+                      />
+                      Plus One?
+                    </label>
+                  </div>
+
+                  {rsvpFormData.plusOne && (
+                    <div className="form-group">
+                      <label htmlFor="plus-one-name">
+                        <MdPerson className="input-icon" />
+                        Plus One Name
+                      </label>
+                      <input
+                        id="plus-one-name"
+                        type="text"
+                        className="input"
+                        placeholder="Plus one name"
+                        value={rsvpFormData.plusOneName}
+                        onChange={(e) => setRsvpFormData({ ...rsvpFormData, plusOneName: e.target.value })}
+                      />
+                    </div>
+                  )}
+
+                  <div className="rsvp-form-actions">
+                    <button
+                      onClick={editingRSVPId ? handleUpdateRSVP : handleAddRSVP}
+                      className="btn btn-primary"
+                    >
+                      {editingRSVPId ? 'Update RSVP' : 'Add RSVP'}
+                    </button>
+                    <button
+                      onClick={() => {
+                        resetRSVPForm()
+                        setShowAddRSVPForm(false)
+                        setEditingRSVPId(null)
+                      }}
+                      className="btn btn-outline"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Add Button */}
+            {!showAddRSVPForm && (
+              <div className="rsvp-add-btn-container fade-in">
+                <button
+                  onClick={() => setShowAddRSVPForm(true)}
+                  className="btn btn-primary rsvp-add-btn"
+                >
+                  <MdAdd />
+                  Add RSVP
+                </button>
+              </div>
+            )}
+
+            {/* RSVP List */}
+            <div className="rsvp-list fade-in">
+              {rsvps.length === 0 ? (
+                <div className="rsvp-empty-state card">
+                  <MdEventNote className="empty-icon" />
+                  <p>No RSVPs yet. Add your first guest!</p>
+                </div>
+              ) : (
+                rsvps.map((rsvp) => (
+                  <div key={rsvp.id} className="rsvp-card card">
+                    <div className="rsvp-card-header">
+                      <div className="rsvp-card-info">
+                        {getRSVPStatusIcon(rsvp.status)}
+                        <div>
+                          <h3>{rsvp.name}</h3>
+                          <div className="rsvp-card-details">
+                            <span><MdEmail /> {rsvp.email}</span>
+                            {rsvp.phone && <span><MdPhone /> {rsvp.phone}</span>}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="rsvp-card-status">
+                        <select
+                          value={rsvp.status}
+                          onChange={(e) => handleRSVPStatusChange(rsvp.id, e.target.value)}
+                          className="rsvp-status-select"
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="confirmed">Confirmed</option>
+                          <option value="declined">Declined</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {rsvp.plusOne && rsvp.plusOneName && (
+                      <div className="rsvp-plus-one">
+                        <MdPerson />
+                        <span>Plus One: {rsvp.plusOneName}</span>
+                      </div>
+                    )}
+
+                    {rsvp.tableAssignment && (
+                      <div className="rsvp-table-assignment">
+                        <MdTableRestaurant />
+                        <span>Table: {rsvp.tableAssignment}</span>
+                      </div>
+                    )}
+
+                    <div className="rsvp-card-actions">
+                      <button
+                        onClick={() => handleEditRSVP(rsvp.id)}
+                        className="rsvp-action-btn rsvp-edit-btn"
+                        title="Edit"
+                      >
+                        <MdEdit />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteRSVP(rsvp.id)}
+                        className="rsvp-action-btn rsvp-delete-btn"
+                        title="Delete"
+                      >
+                        <MdDelete />
+                      </button>
+                    </div>
+                  </div>
+                ))
               )}
             </div>
           </div>
